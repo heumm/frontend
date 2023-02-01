@@ -1,10 +1,15 @@
-import Home from "@/pages/Home";
-import Login from "@/pages/Login";
+import HomeView from "@/pages/HomeView";
 import {createRouter, createWebHistory} from "vue-router";
 
 const routes = [
-    {path: '/', component: Home},
-    {path: '/login', component: Login}
+    {
+        path: '/',
+        component: HomeView
+    },
+    {
+        path: '/login',
+        component: () => import(/* webpackChunkName: "login" */ '@/pages/LoginView')
+    }
 ];
 
 const router = createRouter({

@@ -1,4 +1,5 @@
 <template>
+
   <div class="col">
     <div class="card shadow-sm">
       <span class="img" :style="{backgroundImage: `url(${item.imgPath})`}"></span>
@@ -32,6 +33,7 @@ export default {
     item: Object
   },
   setup() {
+
     return {lib}
   }
 }

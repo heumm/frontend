@@ -10,6 +10,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import store from "@/scripts/store";
+import axios from "axios";
+import {watch} from "vue";
+import {useRoute} from "vue-router";
 
 export default {
   name: 'App',
@@ -18,10 +21,20 @@ export default {
     Header
   },
   setup() {
-    const id = sessionStorage.getItem("id");
-    if (id) {
-      store.commit("setAccount", id);
-    }
+    const check = () => {
+      axios.get("/api/account/check").then(({data}) => {
+        // console.log(data);
+        if (data) {
+          store.commit("setAccount", data || 0);  //data 있으면 넣고 없으면 0
+        }
+      })
+    };
+
+    const route = useRoute();
+
+    watch(route, () => {
+      check();
+    })
   }
 }
 </script>
