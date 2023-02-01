@@ -3,12 +3,12 @@
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
     <div class="form-floating">
       <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
-             v-model="state.form.email">
+             @keyup.enter="submit()" v-model="state.form.email">
       <label for="floatingInput">Email address</label>
     </div>
     <div class="form-floating">
       <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
-             v-model="state.form.password">
+             @keyup.enter="submit()" v-model="state.form.password">
       <label for="floatingPassword">Password</label>
     </div>
     <div class="checkbox mb-3">
@@ -16,7 +16,7 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" @click="submit()">Sign in</button>
+    <button class="w-100 btn btn-lg" @click="submit()" :disabled="state.form.password === ''" :class="{'btn-primary':!isEmailEmpty() && !isPasswordEmpty(), 'btn-danger':isEmailEmpty() || isPasswordEmpty()}">Sign in</button>
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
   </div>
 </template>
@@ -28,19 +28,27 @@ import axios from "axios";
 import store from "@/scripts/store";
 import router from "@/scripts/router";
 
+
+
+
 export default {
+
   setup() {
+
     const state = reactive({
       form: {
         email: "",
         password: "",
-      }
+      },
     })
+
+    const isEmailEmpty = () => state.form.email === '';
+
+    const isPasswordEmpty = () => state.form.password === '';
 
     const submit = () => {
       axios.post("/api/account/login", state.form).then((res) => {
         store.commit("setAccount", res.data);
-        sessionStorage.setItem("id", res.data);
         router.push({path: "/"});
         window.alert("로그인하였습니다.")
       }).catch(() => {
@@ -48,7 +56,25 @@ export default {
       });
     }
 
-    return {state, submit};
+    return {
+      state,
+      submit,
+      isEmailEmpty,
+      isPasswordEmpty
+    };
+  },
+  methods:{
+    // submit() {
+    //   axios.post("/api/account/login", this.state.form).then((res) => {
+    //     store.commit("setAccount", res.data);
+    //     console.log(res.data);
+    //     sessionStorage.setItem("id", res.data);
+    //     router.push({path: "/"});
+    //     window.alert("로그인하였습니다.")
+    //   }).catch(() => {
+    //     window.alert("로그인 정보가 존재하지 않습니다.");
+    //   });
+    // },
   }
 
 }
