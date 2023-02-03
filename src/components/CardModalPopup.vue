@@ -86,7 +86,5 @@ div {
   /*height: 80%;*/
 }
 
-.image-container {
 
-}
 </style>

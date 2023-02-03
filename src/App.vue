@@ -1,8 +1,9 @@
 <template>
+<div class="flex flex-col h-full">
   <Header/>
-  <RouterView/>
-  <Footer/>
-
+  <RouterView class="flex-grow"/>
+  <Footer class=""/>
+</div>
 </template>
 
 <script>
@@ -21,6 +22,11 @@ export default {
     Header
   },
   setup() {
+    if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
     const check = () => {
       axios.get("/api/account/check").then(({data}) => {
         // console.log(data);

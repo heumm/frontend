@@ -1,23 +1,26 @@
 <template>
-  <div class="form-signin w-100 m-auto">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+  <div class="grid place-content-center">
+    <h1 class="font-mono font-extrabold text-3xl text-violet-600 my-[30px]">Please sign in</h1>
+
+    <div class="my-10">
+      <input type="email" class="border" id="floatingInput" placeholder="name@example.com"
              @keyup.enter="submit()" v-model="state.form.email">
       <label for="floatingInput">Email address</label>
     </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+    <div class="my-10">
+      <input type="password" class="border" id="floatingPassword" placeholder="Password"
              @keyup.enter="submit()" v-model="state.form.password">
       <label for="floatingPassword">Password</label>
     </div>
-    <div class="checkbox mb-3">
+
+    <div class="my-10">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg" @click="submit()" :disabled="state.form.password === ''" :class="{'btn-primary':!isEmailEmpty() && !isPasswordEmpty(), 'btn-danger':isEmailEmpty() || isPasswordEmpty()}">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
+    
+    <button class="border border-indigo-600 bg-indigo-500 rounded-lg hover:bg-indigo-600 hover:cursor-pointer active:bg-indigo-700 text-white font-extrabold text-xl shadow-inner p-3 m-0" @click="submit()" :disabled="state.form.password === ''" >Sign in</button>
+    
   </div>
 </template>
 
