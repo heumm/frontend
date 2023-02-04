@@ -2,7 +2,7 @@
 <div class="flex flex-col h-full">
   <Header/>
   <RouterView class="flex-grow"/>
-  <Footer class=""/>
+  <Footer />
 </div>
 </template>
 

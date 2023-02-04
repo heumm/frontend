@@ -1,18 +1,15 @@
 <template>
-  <div class="home bg-red">
-    <div class="album py-5 bg-light">
-      <div class="container">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div class="col" v-for="(item, i) in state.items" :key="i" @click="openModal = true, state.selectedItemId = item.id">
-            <Card :item="item"/>
-          </div>
+    <div class="">
+      <div class="grid gap-4 grid-cols-3 m-5">
+        <div class="border rounded shadow-md" v-for="(item, i) in state.items" :key="i" @click="openModal = true, state.selectedItemId = item.id">
+          <Card :item="item"/>
         </div>
       </div>
     </div>
 
     <CardModalPopup :selected-item="state.selectedItem" :open-modal="openModal" @close-modal="closeModal"/>
 
-  </div>
+
 
 </template>
 <script setup>

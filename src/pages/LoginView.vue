@@ -1,32 +1,34 @@
 <template>
   <div class="grid place-content-center">
-    <h1 class="font-mono font-extrabold text-3xl text-violet-600 my-[30px]">Please sign in</h1>
-
-    <div class="my-10">
-      <input type="email" class="border" id="floatingInput" placeholder="name@example.com"
-             @keyup.enter="submit()" v-model="state.form.email">
-      <label for="floatingInput">Email address</label>
+    
+    <h1 class="cursor-default font-mono font-extrabold text-4xl drop-shadow-md text-violet-600 mb-[70px] w-full text-center">Please sign in</h1>
+<div class="border p-5">
+    <div class="flex mt-3 p-1 border border-1 rounded-t-lg shadow-sm" :class="{'border-purple-500':state.emailFocused}">
+      <input type="email" class="px-2 py-2 cursor-pointer outline-none" id="floatingInput" placeholder="example@example.com"
+             @keyup.enter="submit()" @focus="state.emailFocused = true" @blur="state.emailFocused = false" v-model="state.form.email">
+      <label class="p-3 cursor-pointer w-full text-slate-600 font-mono font-bold" for="floatingInput">Email</label>
     </div>
-    <div class="my-10">
-      <input type="password" class="border" id="floatingPassword" placeholder="Password"
-             @keyup.enter="submit()" v-model="state.form.password">
-      <label for="floatingPassword">Password</label>
+    <div class="flex mb-3 p-1 border border-1 rounded-b-lg shadow" :class="{'border-purple-500':state.passwordFocused}">
+      <input type="password" class="px-2 py-2 cursor-pointer outline-none" id="floatingPassword" placeholder="Password"
+             @keyup.enter="submit()" @focus="state.passwordFocused = true" @blur="state.passwordFocused = false" v-model="state.form.password">
+      <label class="p-3 cursor-pointer w-full text-slate-600 font-mono font-bold" for="floatingPassword">Password</label>
     </div>
-
-    <div class="my-10">
+    <div class="mt-3 mb-10">
       <label>
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
     
-    <button class="border border-indigo-600 bg-indigo-500 rounded-lg hover:bg-indigo-600 hover:cursor-pointer active:bg-indigo-700 text-white font-extrabold text-xl shadow-inner p-3 m-0" @click="submit()" :disabled="state.form.password === ''" >Sign in</button>
+    <button class="border w-full bg-indigo-500 rounded-lg hover:bg-indigo-600 active:bg-indigo-700 text-white font-extrabold text-xl shadow-inner p-3 m-0 disabled:bg-slate-600" @click="submit()" :disabled="!isSubmitButtonEnabled" >Sign in</button>
+</div>
+    
     
   </div>
 </template>
 
 
 <script>
-import {reactive} from "vue";
+import {computed, reactive} from "vue";
 import axios from "axios";
 import store from "@/scripts/store";
 import router from "@/scripts/router";
@@ -42,8 +44,13 @@ export default {
       form: {
         email: "",
         password: "",
+        
       },
+      emailFocused: false,
+      passwordFocused: false
     })
+
+    const isSubmitButtonEnabled = computed(() => state.form.password !== '' && state.form.email !== '');
 
     const isEmailEmpty = () => state.form.email === '';
 
@@ -63,7 +70,8 @@ export default {
       state,
       submit,
       isEmailEmpty,
-      isPasswordEmpty
+      isPasswordEmpty,
+      isSubmitButtonEnabled
     };
   },
   methods:{
@@ -84,24 +92,5 @@ export default {
 </script>
 
 <style scoped>
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-}
 
-.form-signin .form-floating:focus-within {
-  z-index: 2;
-}
-
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 </style>

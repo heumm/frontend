@@ -1,8 +1,8 @@
 <template>
 
-  <div class="col">
-    <div class="card shadow-sm">
-      <span class="img" :style="{backgroundImage: `url(${item.imgPath})`}"></span>
+  <div class="border shadow-md rounded">
+    <div class="">
+      <span class="img" :style="{backgroundImage: `url(${item.imgPath})`}" alt="image"></span>
       <div class="card-body">
         <p class="card-text">
           <span>{{ item.name }} &nbsp;</span>
@@ -40,15 +40,5 @@ export default {
 </script>
 
 <style scoped>
-.card .img {
-  display: inline-block;
-  width: 100%;
-  height: 250px;
-  background-size: cover;
-  background-position: center;
-}
 
-.card .card-body .price {
-  text-decoration: line-through;
-}
 </style>
