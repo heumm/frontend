@@ -1,13 +1,12 @@
 <template>
-    <div class="">
+    <div class="flex-grow">
       <div class="grid gap-4 grid-cols-3 m-5">
-        <div class="border rounded shadow-md" v-for="(item, i) in state.items" :key="i" @click="openModal = true, state.selectedItemId = item.id">
+        <div class="border rounded shadow-md" v-for="(item, i) in state.items" :key="i" @click="state.selectedItemId = item.id, openModal = true">
           <Card :item="item"/>
         </div>
       </div>
+      <CardModalPopup :selected-item="state.selectedItem" :open-modal="openModal" @close-modal="closeModal"/>
     </div>
-
-    <CardModalPopup :selected-item="state.selectedItem" :open-modal="openModal" @close-modal="closeModal"/>
 
 
 
@@ -22,14 +21,14 @@ const state = reactive({
   items: [],
   selectedItemId: -1,
   selectedItem: {}
-})
+});
 
 const openModal = ref(false);
 
 const closeModal = (event) => {
-  if (event.target.classList.contains("black-bg") || event.target.classList.contains("fa-xmark")) {
+  if (event.target.id === 'modalBg' || event.target.id === 'modalClose' || event.target.id === 'modalClose2') {
     openModal.value = false;
-    state.selectedItem = {};
+    // state.selectedItem = {};
   }
 }
 
@@ -39,21 +38,25 @@ axios.get("/api/items").then(({data}) => {
   // console.log(state.items);
 })
 
+
+
 watch(() => state.selectedItemId, (newValue, oldValue) => {
   console.log('state.selectedItemId changed', {newValue, oldValue});
   // state.selectedItem.imgPath = '';
-  if(openModal.value){
-    axios.get(`/api/item/${state.selectedItemId}`).then(({data}) => {
-      state.selectedItem = data;
-      // console.log(state.selectedItem);
-    }).catch(() => {
-      window.alert('bad request');
-    })
-  }
+
+  axios.get(`/api/item/${state.selectedItemId}`).then(({data}) => {
+    state.selectedItem = data;
+    // openModal.value = true;
+    // console.log(state.selectedItem);
+  }).catch(() => {
+    window.alert('bad request');
+  })
+
 
 }, {
   immediate:false
 });
+
 </script>
 
 <style scoped>
@@ -63,7 +66,7 @@ watch(() => state.selectedItemId, (newValue, oldValue) => {
 /*div {*/
 /*  box-sizing: border-box;*/
 /*}*/
-.black-bg {
+/* .black-bg {
   background: rgba(0, 0, 0, 0.5);
   padding: 15%;
   position: fixed;
@@ -73,15 +76,15 @@ watch(() => state.selectedItemId, (newValue, oldValue) => {
   height: 100%;
 }
 
-.white-bg {
+/* .white-bg { */
   /*position: fixed;*/
   /*z-index: 999;*/
-  width: 100%;
+  /*width: 100%;
   height: 100%;
   background: white;
   border-radius: 8px;
   padding: 20px;
-}
+} */
 
 /*.my-modal {*/
 /*  !*justify-content: center;*!*/

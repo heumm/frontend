@@ -63,19 +63,28 @@
           <div>
               <router-link to="/login" class="bg-indigo-700 hover:bg-indigo-800 active:bg-indigo-900 font-bold text-base text-white py-2 px-3 shadow-sm rounded-md" v-if="!$store.state.account.id">Sign in</router-link>
               
-            <button type="button" class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"  @click="toggle($refs.userMenu)" aria-expanded="false" aria-haspopup="true" v-else>
+            <button type="button" class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"  @click="toggleUserMenu()" aria-expanded="false" aria-haspopup="true" v-else>
               <span class="sr-only">Open user menu</span>
               <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
             </button>
           </div>
 
-          
-          <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right overflow-hidden rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden" ref="userMenu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1" v-if="$store.state.account.id">
-            <!-- Active: "bg-gray-100", Not Active: "" -->
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700" @click="logout()" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-          </div>
+          <TransitionRoot
+            :show="isShowing"
+            enter="transition ease-out duration-100"
+            enter-from="transform opacity-0 scale-95"
+            enter-to="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leave-from="transform opacity-100 scale-100"
+            leave-to="transform opacity-0 scale-95"
+          >
+            <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right overflow-hidden rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+              <!-- Active: "bg-gray-100", Not Active: "" -->
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+              <a href="#" class="block px-4 py-2 text-sm text-gray-700" @click="logout()" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+            </div>
+          </TransitionRoot>
         </div>
       </div>
     </div>
@@ -145,10 +154,18 @@
 import router from "@/scripts/router";
 import store from "@/scripts/store";
 import axios from 'axios';
+import { TransitionRoot } from '@headlessui/vue';
+import { ref } from '@vue/reactivity';
+
 
 export default {
   name: 'Header',
+  components: {
+    TransitionRoot,
+  },
   setup() {
+    const isShowing = ref(false);
+
     const logout = () => {
       axios.delete('/api/account/logout').then(() => {
         store.commit('setAccount', 0);
@@ -158,37 +175,11 @@ export default {
       })
     }
 
-    const toggle = (element) => {
-      const selectors = {
-        enter:     ['transition', 'ease-out', 'duration-100'],
-        enterFrom: ['transform' , 'opacity-0', 'scale-95'],
-        enterTo:   ['transform' , 'opacity-100', 'scale-100'],
-        leave:     ['transition', 'ease-in', 'duration-75'],
-        leaveFrom: ['transform' , 'opacity-100', 'scale-100'],
-        leaveTo:   ['transform' , 'opacity-0', 'scale-95']
-      };
-      if(element.classList.contains('hidden')) {
-        //나타나기
-        element.classList.remove(...selectors.leaveTo);
-        element.classList.remove(...selectors.leave);
-        element.classList.remove('hidden');
-        element.classList.add(...selectors.enter);
-        element.classList.add(...selectors.enterFrom);
-        element.classList.add(...selectors.enterTo);
-        element.classList.remove(...selectors.enterFrom);
-      } else {
-        //숨기기
-        element.classList.remove(...selectors.enterTo);
-        element.classList.remove(...selectors.enter);
-        
-        element.classList.add(...selectors.leave);
-        element.classList.add(...selectors.leaveFrom);
-        element.classList.add(...selectors.leaveTo);
-        element.classList.remove(...selectors.leaveFrom);
-        element.classList.add('hidden');
-      }
+    const toggleUserMenu = () => {
+      isShowing.value = !isShowing.value;
     }
-    return {logout, toggle};
+
+    return {logout, toggleUserMenu, isShowing};
   },
 
 }

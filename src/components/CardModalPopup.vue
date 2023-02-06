@@ -1,8 +1,12 @@
 <template>
-  <div v-if="props.openModal" class="black-bg align-items-end flex-column d-flex p-0" @click="$emit('closeModal', $event)">
-    <div><i class="btn p-0 m-3 fa-solid fa-xmark" style="font-size: 30px;color: whitesmoke" @click="$emit('closeModal', $event)"></i></div>
+  <div v-if="props.openModal" class="bg-black bg-opacity-50 w-full h-full fixed top-0 flex flex-col" id="modalBg" @click="$emit('closeModal', $event)">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 self-end text-white cursor-pointer" id="modalClose" @click="$emit('closeModal', $event)">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" id="modalClose2" />
+    </svg>
 
-    <div class="white-bg container m-auto d-flex align-items-stretch">
+    <!-- <div><i class="btn p-0 m-3 fa-solid fa-xmark" style="font-size: 30px;color: whitesmoke" @click="$emit('closeModal', $event)"></i></div> -->
+
+    <div class="bg-white self-center m-auto w-9/12 h-4/6">
       <!--      <div :style="{backgroundImage:`url(${props.selectedItem.imgPath})`}"></div>-->
 
 
@@ -47,7 +51,7 @@ defineEmits([
 
 
 <style scoped>
-img {
+/* img {
 /*  border: 1px solid #ddd;*/
 /*  border-radius: 4px;*/
 /*  padding: 5px;*/
@@ -55,16 +59,16 @@ img {
 /*  !*height: 300px;*!*/
 /*  !*max-height: 100%;*!*/
 /*  !*max-width: 100%;*!*/
-  object-fit: cover;
-}
+  /* object-fit: cover;
+}  */
 
-body {
+/* body {
   margin: 0;
-}
+} */
 
-div {
+/* div {
   box-sizing: border-box;
-}
+} */
 
 .black-bg {
   /*width: 100%;*/
