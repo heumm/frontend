@@ -1,61 +1,60 @@
 <template>
-    <div class="flex-grow">
-      <div class="grid gap-4 grid-cols-3 m-5">
-        <div class="border rounded shadow-md" v-for="(item, i) in state.items" :key="i" @click="state.selectedItemId = item.id, openModal = true">
+<div class="p-3">
+  <Page/>
+</div>
+    <!-- <div class="flex-grow"> -->
+      <!-- <div class="grid grid-cols-1 md:grid-cols-3 m-5"> -->
+        <!-- <div class="border rounded shadow-md m-5" v-for="(item, i) in state.items" :key="i" @click="state.selectedItemId = item.id, openModal = true">
           <Card :item="item"/>
-        </div>
-      </div>
-      <CardModalPopup :selected-item="state.selectedItem" :open-modal="openModal" @close-modal="closeModal"/>
-    </div>
+        </div> -->
+        
+      <!-- </div> -->
+      <!-- <CardModalPopup :selected-item="state.selectedItem" :open-modal="openModal" @close-modal="closeModal"/> -->
+    <!-- </div> -->
 
 
 
 </template>
 <script setup>
-import axios from "axios";
-import {reactive, ref, watch} from "vue";
-import Card from "@/components/Card";
-import CardModalPopup from "@/components/CardModalPopup"
+import Page from "@/components/Page.vue";
+// import axios from "axios";
+// import {reactive, watch} from "vue";
+// import Card from "@/components/Card";
+// import CardModalPopup from "@/components/CardModalPopup"
 
-const state = reactive({
-  items: [],
-  selectedItemId: -1,
-  selectedItem: {}
-});
+// const state = reactive({
+//   items: [],
+//   selectedItemId: -1,
+//   selectedItem: {}
+// });
 
-const openModal = ref(false);
+// const openModal = ref(false);
 
-const closeModal = (event) => {
-  if (event.target.id === 'modalBg' || event.target.id === 'modalClose' || event.target.id === 'modalClose2') {
-    openModal.value = false;
-    // state.selectedItem = {};
-  }
-}
-
-
-axios.get("/api/items").then(({data}) => {
-  state.items = data;
-  // console.log(state.items);
-})
+// const closeModal = (event) => {
+//   if (event.target.id === 'modalBg' || event.target.id === 'modalClose' || event.target.id === 'modalClose2') {
+//     openModal.value = false;
+//   }
+// }
 
 
-
-watch(() => state.selectedItemId, (newValue, oldValue) => {
-  console.log('state.selectedItemId changed', {newValue, oldValue});
-  // state.selectedItem.imgPath = '';
-
-  axios.get(`/api/item/${state.selectedItemId}`).then(({data}) => {
-    state.selectedItem = data;
-    // openModal.value = true;
-    // console.log(state.selectedItem);
-  }).catch(() => {
-    window.alert('bad request');
-  })
+// axios.get("/api/items").then(({data}) => {
+//   state.items = data;
+// })
 
 
-}, {
-  immediate:false
-});
+
+// watch(() => state.selectedItemId, (newValue, oldValue) => {
+//   console.log('state.selectedItemId changed', {newValue, oldValue});
+  
+//   state.selectedItem = {};
+//   axios.get(`/api/item/${state.selectedItemId}`).then(({data}) => {
+//     state.selectedItem = data;
+//   }).catch(() => {
+//     window.alert('bad request');
+//   })
+// }, {
+//   immediate:false
+// });
 
 </script>
 

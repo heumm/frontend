@@ -6,24 +6,25 @@
 
     <!-- <div><i class="btn p-0 m-3 fa-solid fa-xmark" style="font-size: 30px;color: whitesmoke" @click="$emit('closeModal', $event)"></i></div> -->
 
-    <div class="bg-white self-center m-auto w-9/12 h-4/6">
+    <div class="bg-white flex flex-row self-center m-auto w-10/12 h-5/6 rounded max-w-screen-lg">
       <!--      <div :style="{backgroundImage:`url(${props.selectedItem.imgPath})`}"></div>-->
 
 
-      <div class="row row-cols-2">
-        <div class="col border-end"><img class="img-fluid" :src="props.selectedItem.imgPath" alt="img"/></div>
-        <div class="col ">
-          <div class="row ">
-            <div class="col border-bottom"></div>
-          </div>
-          <div class="row ">
-            <div class="col border-bottom"></div>
-          </div>
-          <div class="row ">
-            <div class="col border-bottom"></div>
-          </div>
+      <div class="basis-4/12 flex justify-center items-center py-3">
+        <img class="object-cover max-h-full" :src="props.selectedItem.imgPath" alt="img"/>
+      </div>
+      <div class="basis-8/12 flex flex-col items-stretch border-l">
+        <div class="border-b basis-2/12">
+        </div>
+        <div class="border-b basis-8/12">
+        </div>
+        <div class="basis-2/12">
         </div>
       </div>
+        
+          <!-- </div> -->
+        <!-- </div> -->
+      
 <!--      <div class="d-flex flex-row-reverse"><button class="btn btn-sm btn-danger " @click="$emit('closeModalByButton')">Close</button></div>-->
 
 

@@ -1,15 +1,15 @@
 <template>
-<div class="flex flex-col h-full">
-  <Header/>
+<div class="flex flex-row h-full">
+  <Aside/>
   <RouterView class="flex-grow"/>
-  <Footer />
+  <!-- <Footer /> -->
 </div>
 </template>
 
 <script>
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Aside from "@/components/Aside";
+// import Footer from "@/components/Footer";
 import store from "@/scripts/store";
 import axios from "axios";
 import {watch} from "vue";
@@ -18,8 +18,8 @@ import {useRoute} from "vue-router";
 export default {
   name: 'App',
   components: {
-    Footer,
-    Header
+    // Footer,
+    Aside
   },
   setup() {
     if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
